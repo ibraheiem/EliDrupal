@@ -324,7 +324,7 @@ function profile_view_profile(&$user) {
         '#title' => $title,
         '#value' => $value,
         '#weight' => $field->weight,
-        '#attributes' => array('class' => 'profile-d'. $field->name),
+        '#attributes' => array('class' => 'profile-'. $field->name),
       );
     }
   }
@@ -375,8 +375,7 @@ function profile_form_profile($edit, $user, $category, $register = FALSE) {
       			$eli_current_language_field_title = $eli_multi_language_field_title[0] ;
 		}
 	/** ----------------- end --------------------- **/
-
-    switch ($field->type) {
+	    switch ($field->type) {
       case 'textfield':
       case 'url':
         $fields[$category][$field->name] = array('#type' => 'textfield',
@@ -416,6 +415,30 @@ function profile_form_profile($edit, $user, $category, $register = FALSE) {
         break;
       case 'selection':
         $options = $field->required ? array() : array('--');
+        /********************************** ALL Countries ********************************/
+        if($field->name == 'profile_country')
+        {
+        	if($language->language == 'en')
+        	{
+        		require('profile.encountries.inc');
+        	}
+        	else
+        	{
+        		require('profile.arcountries.inc');
+        	}
+
+        	 $fields[$category][$field->name] = array('#type' => 'select',
+          '#title' => check_plain($eli_current_language_field_title),
+          '#default_value' => isset($edit[$field->name]) ? $edit[$field->name] : '',
+          '#options' => $counrylang['country'],
+          '#description' => _profile_form_explanation($field),
+          '#required' => $field->required,
+        );
+
+        }
+        else
+        {
+        /*********************************************************************************/
         $lines = split("[\n\r]", $field->options);
         foreach ($lines as $line) {
           if ($line = trim($line)) {
@@ -442,6 +465,7 @@ function profile_form_profile($edit, $user, $category, $register = FALSE) {
           '#description' => _profile_form_explanation($field),
           '#required' => $field->required,
         );
+        }
         break;
       case 'date':
         $fields[$category][$field->name] = array('#type' => 'date',
