@@ -124,7 +124,6 @@ function drupal_mail($module, $key, $to, $language, $params = array(), $from = N
 
   // Concatenate and wrap the e-mail body.
   $message['body'] = is_array($message['body']) ? drupal_wrap_mail(implode("\n\n", $message['body'])) : drupal_wrap_mail($message['body']);
-
   // Optionally send e-mail.
   if ($send) {
     $message['result'] = drupal_mail_send($message);

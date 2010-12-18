@@ -295,6 +295,7 @@ function profile_view_field($user, $field) {
 }
 
 function profile_view_profile(&$user) {
+	global $language ;
 
   profile_load_profile($user);
 
@@ -318,7 +319,26 @@ function profile_view_profile(&$user) {
           '#title' => $field->category,
         );
       }
+    	/******************** LANGUAGE ************************/
 
+    	/**** show country name in right language ******/
+
+    	if($field->name == 'profile_country')
+    	{
+    		if($language->language == 'en')
+    		{
+    			require('profile.encountries.inc');
+    		}
+    		else
+    		{
+    			require('profile.arcountries.inc');
+    		}
+
+    		$value = $counrylang['country'][strip_tags($value)];
+
+    	}
+
+    	/************** Countries *********************/
       $user->content[$field->category][$field->name] = array(
         '#type' => 'user_profile_item',
         '#title' => $title,
@@ -345,6 +365,7 @@ function _profile_form_explanation($field) {
 }
 
 function profile_form_profile($edit, $user, $category, $register = FALSE) {
+  global $language ;
   $result = _profile_get_fields($category, $register);
   $weight = 1;
   $fields = array();
@@ -353,33 +374,11 @@ function profile_form_profile($edit, $user, $category, $register = FALSE) {
     if (!isset($fields[$category])) {
       $fields[$category] = array('#type' => 'fieldset', '#title' => check_plain($category), '#weight' => $weight++);
     }
-    /** ------------------------- start ---------------
-    * adding multi language to profile *
-    * by Shammer & ibraheiem@elc.edu.sa*
-    * How to use : in createin profile just add "English,Arabic" filed title*
-    * then the code will read filed title and explode "," and show it right language *
-    **/
-    global $language;
-
-     $eli_multi_language_field_title = explode(",",$field->title);
-      if($language->language == 'en')
-      	{
-      		$eli_current_language_field_title = $eli_multi_language_field_title[0];
-      		if(empty($eli_current_language_field_title))
-      			$eli_current_language_field_title = $eli_multi_language_field_title[1] ;
-      	}
-		else
-		{
-			$eli_current_language_field_title = $eli_multi_language_field_title[1];
-			if(empty($eli_current_language_field_title))
-      			$eli_current_language_field_title = $eli_multi_language_field_title[0] ;
-		}
-	/** ----------------- end --------------------- **/
-	    switch ($field->type) {
+    switch ($field->type) {
       case 'textfield':
       case 'url':
         $fields[$category][$field->name] = array('#type' => 'textfield',
-          '#title' => check_plain($eli_current_language_field_title),
+          '#title' => check_plain($field->title),
           '#default_value' => isset($edit[$field->name]) ? $edit[$field->name] : '',
           '#maxlength' => 255,
           '#description' => _profile_form_explanation($field),
@@ -391,7 +390,7 @@ function profile_form_profile($edit, $user, $category, $register = FALSE) {
         break;
       case 'textarea':
         $fields[$category][$field->name] = array('#type' => 'textarea',
-          '#title' => check_plain($eli_current_language_field_title),
+          '#title' => check_plain($field->title),
           '#default_value' => isset($edit[$field->name]) ? $edit[$field->name] : '',
           '#description' => _profile_form_explanation($field),
           '#required' => $field->required,
@@ -399,7 +398,7 @@ function profile_form_profile($edit, $user, $category, $register = FALSE) {
         break;
       case 'list':
         $fields[$category][$field->name] = array('#type' => 'textarea',
-          '#title' => check_plain($eli_current_language_field_title),
+          '#title' => check_plain($field->title),
           '#default_value' => isset($edit[$field->name]) ? $edit[$field->name] : '',
           '#description' => _profile_form_explanation($field),
           '#required' => $field->required,
@@ -407,7 +406,7 @@ function profile_form_profile($edit, $user, $category, $register = FALSE) {
         break;
       case 'checkbox':
         $fields[$category][$field->name] = array('#type' => 'checkbox',
-          '#title' => check_plain($eli_current_language_field_title),
+          '#title' => check_plain($field->title),
           '#default_value' => isset($edit[$field->name]) ? $edit[$field->name] : '',
           '#description' => _profile_form_explanation($field),
           '#required' => $field->required,
@@ -415,61 +414,48 @@ function profile_form_profile($edit, $user, $category, $register = FALSE) {
         break;
       case 'selection':
         $options = $field->required ? array() : array('--');
-        /********************************** ALL Countries ********************************/
-        if($field->name == 'profile_country')
-        {
-        	if($language->language == 'en')
-        	{
-        		require('profile.encountries.inc');
-        	}
-        	else
-        	{
-        		require('profile.arcountries.inc');
-        	}
+      	/********************************** ALL Countries ********************************/
+      	if($field->name == 'profile_country')
+      	{
+      		if($language->language == 'en')
+      		{
+      			require('profile.encountries.inc');
+      		}
+      		else
+      		{
+      			require('profile.arcountries.inc');
+      		}
 
-        	 $fields[$category][$field->name] = array('#type' => 'select',
-          '#title' => check_plain($eli_current_language_field_title),
-          '#default_value' => isset($edit[$field->name]) ? $edit[$field->name] : '',
-          '#options' => $counrylang['country'],
-          '#description' => _profile_form_explanation($field),
-          '#required' => $field->required,
-        );
+      		$fields[$category][$field->name] = array('#type' => 'select',
+      		'#title' => check_plain($field->title),
+      		'#default_value' => isset($edit[$field->name]) ? $edit[$field->name] : '',
+      		'#options' => $counrylang['country'],
+      		'#description' => _profile_form_explanation($field),
+      		'#required' => $field->required,
+      	);
 
-        }
-        else
-        {
-        /*********************************************************************************/
-        $lines = split("[\n\r]", $field->options);
+      	}
+      	else
+      	{
+      		/*********************************************************************************/
+        $lines = split("[\n\r]", strip_tags($field->options));
         foreach ($lines as $line) {
           if ($line = trim($line)) {
-          	$eli_multi_language_field_option = explode(",",$line);
-          	if($language->language == 'en')
-          		{
-          			$eli_current_language_field_option = $eli_multi_language_field_option[0] ;
-          			if(empty($eli_current_language_field_option))
-      					$eli_current_language_field_option= $eli_multi_language_field_option[1] ;
-          		}
-          	else
-          		{
-          			$eli_current_language_field_option = $eli_multi_language_field_option[1] ;
-          			if(empty($eli_current_language_field_option))
-      					$eli_current_language_field_option= $eli_multi_language_field_option[0] ;
-          		}
-            $options[$line] = 	$eli_current_language_field_option ;
+            $options[$line] = $line;
           }
         }
         $fields[$category][$field->name] = array('#type' => 'select',
-          '#title' => check_plain($eli_current_language_field_title),
+          '#title' => check_plain($field->title),
           '#default_value' => isset($edit[$field->name]) ? $edit[$field->name] : '',
           '#options' => $options,
           '#description' => _profile_form_explanation($field),
           '#required' => $field->required,
         );
-        }
+      	}
         break;
       case 'date':
         $fields[$category][$field->name] = array('#type' => 'date',
-          '#title' => check_plain($eli_current_language_field_title),
+          '#title' => check_plain($field->title),
           '#default_value' => isset($edit[$field->name]) ? $edit[$field->name] : '',
           '#description' => _profile_form_explanation($field),
           '#required' => $field->required,

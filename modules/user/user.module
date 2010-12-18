@@ -1682,15 +1682,18 @@ function user_mail($key, &$message, $params) {
  *
  * Used by user_mail() and the settings forms to retrieve strings.
  */
+/**
+* addien Arabic Text ;
+***/
 function _user_mail_text($key, $language = NULL, $variables = array()) {
   $langcode = isset($language) ? $language->language : NULL;
-
-  if ($admin_setting = variable_get('user_mail_'. $key, FALSE)) {
+  //if ($admin_setting = variable_get('user_mail_'. $key, FALSE)) {
     // An admin setting overrides the default string.
-    return strtr($admin_setting, $variables);
-  }
-  else {
-    // No override, return default string.
+//return strtr($admin_setting, $variables);
+
+ // }
+ // else {
+     //No override, return default string.
     switch ($key) {
       case 'register_no_approval_required_subject':
         return t('Account details for !username at !site', $variables, $langcode);
@@ -1723,7 +1726,7 @@ function _user_mail_text($key, $language = NULL, $variables = array()) {
         return t('Account details for !username at !site (deleted)', $variables, $langcode);
       case 'status_deleted_body':
         return t("!username,\n\nYour account on !site has been deleted.", $variables, $langcode);
-    }
+   // }
   }
 }
 
@@ -2102,7 +2105,7 @@ function theme_user_signature($signature) {
   $output = '';
   if ($signature) {
     $output .= '<div class="clear">';
-    $output .= '<div>—</div>';
+    $output .= '<div>â€”</div>';
     $output .= $signature;
     $output .= '</div>';
   }
@@ -2195,6 +2198,7 @@ function _user_mail_notify($op, $account, $language = NULL) {
   if ($notify) {
     $params['account'] = $account;
     $language = $language ? $language : user_preferred_language($account);
+
     $mail = drupal_mail('user', $op, $account->mail, $language, $params);
     if ($op == 'register_pending_approval') {
       // If a user registered requiring admin approval, notify the admin, too.

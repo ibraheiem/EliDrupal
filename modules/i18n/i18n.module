@@ -21,12 +21,12 @@ define('LANGUAGE_SUPPORT_EXTENDED_NOT_DISPLAYED', 3);
 
 /**
  * Implementation of hook_boot()
- * 
+ *
  * Initialize variables, that will be used to decide on site_frontpage
  */
 function i18n_boot() {
   drupal_bootstrap(DRUPAL_BOOTSTRAP_LANGUAGE);
-  _i18n_init();  
+  _i18n_init();
 }
 
 /**
@@ -44,12 +44,12 @@ function i18n_init() {
 
 /**
  * Initialize multilingual variables and use them for site_frontpage
- * 
+ *
  * Special fix for site_frontpage, that may have been used before the language variables are loaded.
  */
 function _i18n_init($check_frontpage = FALSE) {
   static $done, $default_frontpage;
-  
+
   // Prevent this function from running twice;
   if (!isset($done)) {
     $done = TRUE;
@@ -88,7 +88,7 @@ function _i18n_init_mode() {
         i18n_selection_mode('off');
       }
     }
-  }  
+  }
 }
 /**
  * Implementation of hook_help().
@@ -774,11 +774,11 @@ function _i18n_variable_exit() {
   global $conf, $i18n_conf;
 
   $langcode = i18n_get_lang();
-  if (isset($i18n_conf[$langcode])) {  
+  if (isset($i18n_conf[$langcode])) {
     $refresh = FALSE;
     // Rewritten because array_diff_assoc may fail with array variables.
     foreach (i18n_variable() as $name) {
-      if (isset($conf[$name]) && isset($i18n_conf[$langcode][$name]) && $conf[$name] != $i18n_conf[$langcode][$name]) {  
+      if (isset($conf[$name]) && isset($i18n_conf[$langcode][$name]) && $conf[$name] != $i18n_conf[$langcode][$name]) {
         $refresh = TRUE;
         $i18n_conf[$langcode][$name] = $conf[$name];
         db_query("DELETE FROM {i18n_variable} WHERE name='%s' AND language='%s'", $name, $langcode);

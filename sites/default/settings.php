@@ -237,3 +237,44 @@ ini_set('url_rewriter.tags',        '');
 #   'forum'      => 'Discussion board',
 #   '@count min' => '@count minutes',
 # );
+
+/** **/
+/**
+ * Multilingual settings
+ *
+ * This is a collection of variables that can be set up for each language when i18n enabled.
+ * These are the basic ones for Drupal core, but you can add your own here.
+ */
+
+
+$conf['i18n_variables'] = array(
+'site_name',
+'site_footer',
+'site_slogan',
+'site_mission',
+'anonymous',
+'theme_settings',
+'theme_garland_settings',
+'site_frontpage',
+'menu_primary_links_source',
+'menu_secondary_links_source',
+'contact_form_information',
+// User email variables
+'user_mail_password_reset_body',
+'user_mail_password_reset_subject',
+'user_mail_register_admin_created_body',
+'user_mail_register_admin_created_subject',
+'user_mail_register_no_approval_required_body',
+'user_mail_register_no_approval_required_subject',
+'user_mail_register_pending_approval_body',
+'user_mail_register_pending_approval_subject',
+'user_mail_status_activated_body',
+'user_mail_status_activated_subject',
+'user_mail_status_blocked_body',
+'user_mail_status_blocked_subject',
+'user_mail_status_deleted_body',
+'user_mail_status_deleted_subject',
+'user_picture_guidelines',
+'user_registration_help'
+);
+?>
