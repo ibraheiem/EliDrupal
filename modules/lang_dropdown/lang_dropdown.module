@@ -7,7 +7,7 @@
 function lang_dropdown_block($op = 'list', $delta = 0, $edit = array()) {
   if ($op == 'list') {
     $blocks[0] = array(
-      'info' => t('Language switcher dropdown'), 
+      'info' => t('Language switcher dropdown'),
       'cache' => BLOCK_NO_CACHE,
     );
     return $blocks;
@@ -16,7 +16,6 @@ function lang_dropdown_block($op = 'list', $delta = 0, $edit = array()) {
     switch($delta) {
       case 0:
         $block = array(
-          'subject' => t('Languages'),
           'content' => theme('lang_dropdown'));
         break;
     }
@@ -37,9 +36,9 @@ function lang_dropdown_theme() {
 function theme_lang_dropdown() {
   /* This code is almost from locale.module with a bit of modifications
    * Instead of themeing it using theme('links') we'll theme our own dropdown
-   */ 
+   */
   global $language;
-  
+
   $path = drupal_is_front_page() ? '<front>' : $_GET['q'];
   $languages = language_list('enabled');
   $options = array();
@@ -51,19 +50,16 @@ function theme_lang_dropdown() {
     );
   }
   drupal_alter('translation_link', $options, $path);
-  
-  /* Here we theme our own dropdown */
-  $output = "<select id=\"language-select-list\" onchange=\"document.location.href=this.options[this.selectedIndex].value;\">\n";
-  foreach ($options as $lang_option) {
-    if ($language->language == $lang_option['language']->language) {
-      $selected = ' selected="selected"';
-      /* Here we output the language flag  from language icons module */
-      if (module_exists('languageicons')) { $languageicon = theme('languageicons_icon', $lang_option['language']); }
-    } else { $selected = ''; }
-    $path = check_url(url($lang_option['href'], array('language' => $lang_option['language'])));
-    $output .= '<option value="' . $path . '"' . $selected . '>' . $lang_option['title'] . '</option>' . "\n";
-  }
-  
-  $output .= "</select>\n" . $languageicon;
+
+	/*** new Code (Language Images) by ibraheiem **/
+	// Get Language Vars
+		if($language->language == 'ar')
+			$lang_next = 'en';
+		else
+			$lang_next = 'ar' ;
+
+		$lang_image = '/eli/themes/Eli2011/images/lang-'.$lang_next.".jpg" ;
+		$lang_path = check_url(url($options[$lang_next]['href'],array('language' =>$options[$lang_next]['language'])));
+		$output =  "<div id=\"lang_dropdown\"><a href=\"$lang_path\"><img src=\"$lang_image\" alt=\"".$options[$lang_next]['title']."\" title=\"".$options[$lang_next]['title']."\"></a></div>";
   return $output;
 }

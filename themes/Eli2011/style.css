@@ -7,7 +7,7 @@ body {
   margin: 0;
   padding: 0;
   color: #000;
-  background-color: #fff;
+  /*background-color: #273240;*/
   font: 76% Verdana, Arial, Helvetica, sans-serif;
 }
 tr.odd td, tr.even td {
@@ -77,31 +77,51 @@ table {
 #header, #content {
   width: 100%;
 }
+/** site Header after preheader contain logo and menus **/
 #header {
-  background-color: #69c;
+  	border:0px ;
+	width:100% ;
+	height:166px;
+	background-image:url('images/header-bg.jpg');
+	background-repeat:repeat-x;
+	background-color: #273240;
+}
+/* preheader
+above header contain language switcher + Eli Counter
+*/
+#preheader {
+	border:0px ;
+	width:100% ;
+	height:51px;
+	background-image:url('images/preheader-bg.jpg');
+	background-repeat:repeat-x;
+	background-color: #273240;
 }
 #logo {
-  vertical-align: middle;
-  border: 0;
+  border: none;
+  text-align:center;
+
 }
 #logo img {
-  float: left; /* LTR */
+  /*float: left; /* LTR */
   padding: 0 1em;
   border: 0;
 }
-#menu {
-  padding: 0.5em 0.5em 0 0.5em; /* LTR */
-  text-align: right; /* LTR */
-  vertical-align: middle;
-}
+
 #navlist {
   font-size: 1.0em;
   padding: 0 0.8em 1.2em 0; /* LTR */
   color: #9cf;
+  /*background-color:green;*/
 }
+
 #navlist a {
   font-weight: bold;
-  color: #fff;
+  color:#636363;
+}
+
+#navlist a:hover{
+  color:#233346;
 }
 #subnavlist {
   padding: 0.5em 1.2em 0.4em 0; /* LTR */
@@ -219,7 +239,8 @@ ul.links li.first {
   padding: 0 0 1.5em 0; /* LTR */
 }
 .block {
-  border-bottom: 1px solid #bbb;
+  /*border-bottom: 1px solid #bbb;*/
+  border-bottom: 1px solid #334255;
   padding-bottom: 0.75em;
   margin-bottom: 1.5em;
 }
@@ -345,4 +366,40 @@ div.admin-panel h3 {
   color: #fff;
   padding: 5px 8px 5px;
   margin: 0;
+}
+
+#lang_dropdown{
+margin:auto 50px ;
+float:right ;
+}
+
+#menu {
+	/*padding: 0.5em 0.5em 0 0.5em; /* LTR */
+	text-align: center; /* LTR */
+	vertical-align: middle;
+	border:0px solid red;
+	color:red;
+	width:10% ;
+	white-space:nowrap;
+	height:45px;
+	background-image:url('images/menu-bg.jpg');
+	background-repeat:repeat-x;
+	background-position:bottom;
+	vertical-align:bottom;
+}
+
+#menu-open {
+	border:0px solid red  ;
+	background-image:url('images/menu-open.jpg');
+	background-repeat:no-repeat;
+	background-position:right bottom;
+	height:45px;
+}
+
+#menu-close {
+	border:0px solid red  ;
+	background-image:url('images/menu-close.jpg');
+	background-repeat:no-repeat;
+	background-position:left bottom;
+	height:45px;
 }

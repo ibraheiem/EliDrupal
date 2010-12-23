@@ -12,23 +12,38 @@
 </head>
 
 <body>
+<table border="0" cellpadding="0" cellspacing="0" id="preheader">
+	<tr>
+		<td>
+		<div><?php print $header ?></div>
+		</td>
+	</tr>
+</table>
+
 
 <table border="0" cellpadding="0" cellspacing="0" id="header">
-  <tr>
-    <td id="logo">
-      <?php if ($logo) { ?><a href="<?php print $front_page ?>" title="<?php print t('Home') ?>"><img src="<?php print $logo ?>" alt="<?php print t('Home') ?>" /></a><?php } ?>
-      <?php if ($site_name) { ?><h1 class='site-name'><a href="<?php print $front_page ?>" title="<?php print t('Home') ?>"><?php print $site_name ?></a></h1><?php } ?>
-      <?php if ($site_slogan) { ?><div class='site-slogan'><?php print $site_slogan ?></div><?php } ?>
-    </td>
-    <td id="menu">
-      <?php if (isset($secondary_links)) { ?><?php print theme('links', $secondary_links, array('class' => 'links', 'id' => 'subnavlist')) ?><?php } ?>
-      <?php if (isset($primary_links)) { ?><?php print theme('links', $primary_links, array('class' => 'links', 'id' => 'navlist')) ?><?php } ?>
-      <?php print $search_box ?>
-    </td>
-  </tr>
-  <tr>
-    <td colspan="2"><div><?php print $header ?></div></td>
-  </tr>
+	<tr>
+		<td id="logo" colspan="3">
+			<?
+			/** get arabic logo and english one **/
+				$logo = '/eli/themes/Eli2011/images/logo-'.$language->language.'.jpg' ;
+			?>
+			 <a href="<?php print $front_page ?>" title="<?php print $site_name ?>"><img src="<?php print $logo ?>" alt="<?php print $site_name ?>" /></a>
+		</td>
+	</tr>
+	<tr>
+		<td id="menu-open">&nbsp;</td>
+		<td id="menu">
+				<?php if (isset($secondary_links)) { ?><?php print theme('links', $secondary_links, array('class' => 'links', 'id' => 'subnavlist')) ?><?php } ?>
+				<?php if (isset($primary_links)) { ?><?php print theme('links', $primary_links, array('class' => 'links', 'id' => 'navlist')) ?><?php } ?>
+				<?/**
+				* disable search box
+				<?print $search_box ?>
+				* **/
+				?>
+		</td>
+		<td id="menu-close">&nbsp;</td>
+	</tr>
 </table>
 
 <table border="0" cellpadding="0" cellspacing="0" id="content">

@@ -3,11 +3,12 @@ body {
   direction: rtl;
 }
 #logo img {
-  float: right;
+  /*float: right;*/
 }
 #menu {
-  padding: 0.5em 0.5em 0 0.5em;
-  text-align: left;
+  /*padding: 0.5em 0.5em 0 0.5em;*/
+  text-align: center;
+  font-size: 13px;
 }
 #navlist {
   padding: 0 0 1.2em 0.8em;
@@ -34,4 +35,24 @@ ul.links li {
 }
 .comment .picture {
   float: left;
+}
+
+#lang_dropdown{
+float:left ;
+}
+
+#menu-open {
+	border:0px solid red  ;
+	background-image:url('images/menu-close.jpg');
+	background-repeat:no-repeat;
+	background-position:left bottom;
+	height:45px;
+}
+
+#menu-close {
+	border:0px solid red  ;
+	background-image:url('images/menu-open.jpg');
+	background-repeat:no-repeat;
+	background-position:right bottom;
+	height:45px;
 }
